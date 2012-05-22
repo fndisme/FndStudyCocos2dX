@@ -1,0 +1,138 @@
+set nocompatible
+source $VIMRUNTIME/vimrc_example.vim
+source $VIMRUNTIME/mswin.vim
+behave mswin
+
+set diffexpr=MyDiff()
+function MyDiff()
+  let opt = '-a --binary '
+  if &diffopt =~ 'icase' | let opt = opt . '-i ' | endif
+  if &diffopt =~ 'iwhite' | let opt = opt . '-b ' | endif
+  let arg1 = v:fname_in
+  if arg1 =~ ' ' | let arg1 = '"' . arg1 . '"' | endif
+  let arg2 = v:fname_new
+  if arg2 =~ ' ' | let arg2 = '"' . arg2 . '"' | endif
+  let arg3 = v:fname_out
+  if arg3 =~ ' ' | let arg3 = '"' . arg3 . '"' | endif
+  let eq = ''
+  if $VIMRUNTIME =~ ' '
+    if &sh =~ '\<cmd'
+      let cmd = '""' . $VIMRUNTIME . '\diff"'
+      let eq = '"'
+    else
+      let cmd = substitute($VIMRUNTIME, ' ', '" ', '') . '\diff"'
+    endif
+  else
+    let cmd = $VIMRUNTIME . '\diff'
+  endif
+  silent execute '!' . cmd . ' ' . opt . arg1 . ' ' . arg2 . ' > ' . arg3 . eq
+endfunction
+
+:set shiftwidth=2
+:set softtabstop=2
+:set tabstop=2
+:set nobackup
+:set autochdir
+:set t_vb=
+:set magic
+:set smartindent
+:set cmdheight=1
+:set laststatus=2
+:set go-=T
+:ab #b /******************************************************************************
+:ab #e ******************************************************************************/ 
+au InsertLeave,WinLeave *.h,*.cpp update
+
+ augroup filetype
+   au! BufRead,BufNewFile *.proto setfiletype proto
+	 au! BufRead,BufNewFile *.app setfiletype erlang
+	 au! BufRead,BufNewFile *.json setfiletype json
+	 au! BufRead,BufNewFile *.cpp setfiletype cpp
+	 au! BufRead,BufNewFile *.cc setfiletype cpp
+	 au! BufRead,BufNewFile *.h setfiletype cpp
+	 au! BufRead,BufNewFile *.hpp setfiletype cpp
+ augroup end
+
+
+
+:colo Candycode 
+:set tags=tags;
+:set autochdir
+:map <F10> :tnext<CR>
+:let c_no_curly_error=1
+:let btm_rainbow_color=1
+:set guicursor+=n-v-c:blinkon0
+
+filetype off
+call pathogen#runtime_append_all_bundles()
+filetype plugin indent on
+
+:set nocompatible
+set modelines=0
+set showcmd
+set hidden
+set ttyfast
+set ruler
+set relativenumber
+set undofile
+set showmode
+set wildmenu
+
+
+
+let mapleader = ","
+
+nnoremap / /\v
+vnoremap / /\v
+set gdefault
+nnoremap <leader><space> :noh<cr>
+nnoremap <tab> %
+vnoremap <tab> %
+
+set wrap
+set textwidth=80
+set formatoptions=qrn1
+set colorcolumn=85
+
+
+nnoremap <up> <nop>
+nnoremap <down> <nop>
+nnoremap <left> <nop>
+nnoremap <right> <nop>
+inoremap <up> <nop>
+inoremap <down> <nop>
+inoremap <left> <nop>
+inoremap <right> <nop>
+nnoremap j gj
+nnoremap k gk
+
+au FocusLost * :wa
+
+inoremap jj <ESC>
+
+
+nnoremap <C-h> <C-w>h
+nnoremap <C-j> <C-w>j
+nnoremap <C-k> <C-w>k
+nnoremap <C-l> <C-w>l
+
+let g:DoxygenToolkit_briefTag_pre="@Synopsis  "
+let g:DoxygenToolkit_paramTag_pre="@Param "
+let g:DoxygenToolkit_returnTag="@Returns   "
+let g:DoxygenToolkit_blockHeader="--------------------------------------------------------------------------"
+let g:DoxygenToolkit_blockFooter="----------------------------------------------------------------------------"
+let g:DoxygenToolkit_authorName="fndisme"
+let g:DoxygenToolkit_licenseTag="FND Source Lisence"
+
+set enc=utf-8
+set fileencoding=utf-8
+set fileencodings=utf-8,gbk
+set fileformats=unix,dos
+
+set langmenu=zh_CN
+let $LANG=zh_CN.UTF-8
+source $VIMRUNTIME/delmenu.vim
+source $VIMRUNTIME/menu.vim
+language messages zh_CN.utf-8
+
+
